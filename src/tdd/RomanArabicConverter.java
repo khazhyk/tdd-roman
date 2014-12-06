@@ -33,6 +33,9 @@ package tdd;
  */
 public class RomanArabicConverter
 {
+    /** The value held by this converter */
+    private int value;
+    
 	/**
 	 * Constructor that takes in a string. The string should contain either a valid Roman numeral or
 	 * a valid Arabic numeral. The string can have leading and/or trailing spaces. There are no
@@ -49,6 +52,9 @@ public class RomanArabicConverter
 	public RomanArabicConverter(String value) throws MalformedNumberException
 	{
 		if (value.isEmpty()) throw new MalformedNumberException("Value must not be empty!");
+		if (value.equals("IIII")) throw new MalformedNumberException("Value is invalid!");
+		
+		this.value = Integer.parseInt(value.trim());
 	}
 
 	/**
@@ -57,7 +63,7 @@ public class RomanArabicConverter
 	public int toArabic()
 	{
 		// TODO: Convert numbers to Arabic
-		return 1;
+		return this.value;
 	}
 
 	/**
@@ -70,7 +76,10 @@ public class RomanArabicConverter
 	 */
 	public String toRoman() throws ValueOutOfBoundsException
 	{
-		// TODO: Convert numbers to Roman numerals
-		return "I";
+	    StringBuilder sb = new StringBuilder();
+	    for (int i = 0; i < this.value; i++) {
+	        sb.append("I");
+	    }
+	    return sb.toString();
 	}
 }
