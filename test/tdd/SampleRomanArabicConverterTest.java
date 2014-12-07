@@ -56,7 +56,39 @@ public class SampleRomanArabicConverterTest {
         assertEquals(6, new RomanArabicConverter("6").toArabic());
         assertEquals("VI", new RomanArabicConverter("6").toRoman());
     }
-    
+	
+	@Test
+	public void input_9_() throws ValueOutOfBoundsException, MalformedNumberException {
+	    assertEquals(9, new RomanArabicConverter("9").toArabic());
+	    assertEquals("IX", new RomanArabicConverter("9").toRoman());
+	}
+	
+	@Test
+	public void input_10_() throws ValueOutOfBoundsException, MalformedNumberException {
+	    assertEquals(10, new RomanArabicConverter("10").toArabic());
+        assertEquals("X", new RomanArabicConverter("10").toRoman());
+	}
+	
+	@Test
+	public void whole_numbers() throws ValueOutOfBoundsException, MalformedNumberException {
+	    assertEquals("I", new RomanArabicConverter("1").toRoman());
+	    assertEquals("V", new RomanArabicConverter("5").toRoman());
+	    assertEquals("X", new RomanArabicConverter("10").toRoman());
+	    assertEquals("L", new RomanArabicConverter("50").toRoman());
+	    assertEquals("C", new RomanArabicConverter("100").toRoman());
+	    assertEquals("D", new RomanArabicConverter("500").toRoman());
+	    assertEquals("M", new RomanArabicConverter("1000").toRoman());
+	}
+	
+	@Test(expected=ValueOutOfBoundsException.class) 
+	public void tooHigh() throws ValueOutOfBoundsException, MalformedNumberException {
+	    new RomanArabicConverter("5000").toRoman();
+	}
+	
+	@Test(expected=ValueOutOfBoundsException.class)
+	public void tooLow() throws ValueOutOfBoundsException, MalformedNumberException {
+	    new RomanArabicConverter("0").toRoman();
+	}
 	
 	@Test (expected=MalformedNumberException.class)
 	public void inputEmptyString() throws MalformedNumberException

@@ -63,7 +63,7 @@ public class RomanArabicConverter
 	public int toArabic()
 	{
 		// TODO: Convert numbers to Arabic
-		return this.value;
+		return value;
 	}
 
 	/**
@@ -76,16 +76,37 @@ public class RomanArabicConverter
 	 */
 	public String toRoman() throws ValueOutOfBoundsException
 	{
+	    if (value >= 4000 || value <= 0) throw new ValueOutOfBoundsException("Roman numerals must be between 1 and 3999, inclusive");
 	    StringBuilder sb = new StringBuilder();
-	    int left = this.value;
-	    int fives;
-	    for (fives = 0; fives <= left-5; fives+=5) {
-	        sb.append("V");
+	    int left = value;
+	    
+	    while (left >= 1000) {
+	        sb.append('M');
+	        left -= 1000;
 	    }
-	    left -= fives;
+	    while (left >= 500) {
+	        sb.append('D');
+	        left -= 500;
+	    }
+	    while (left >= 100) {
+	        sb.append('C');
+	        left -= 100;
+	    }
+	    while (left >= 50) {
+	        sb.append('L');
+	        left -= 50;
+	    }
+	    while (left >= 10) {
+	        sb.append('X');
+	        left -= 10;
+	    }
+	    while (left >= 5) {
+	        sb.append('V');
+	        left -= 5;
+	    }
 	    for (int i = 0; i < left; i++) {
-	        sb.append("I");
+	        sb.append('I');
 	    }
-	    return sb.toString().replace("IIII", "IV");
+	    return sb.toString().replace("IIII", "IV").replace("VIV","IX");
 	}
 }
