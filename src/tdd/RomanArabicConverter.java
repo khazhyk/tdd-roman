@@ -77,9 +77,15 @@ public class RomanArabicConverter
 	public String toRoman() throws ValueOutOfBoundsException
 	{
 	    StringBuilder sb = new StringBuilder();
-	    for (int i = 0; i < this.value; i++) {
+	    int left = this.value;
+	    int fives;
+	    for (fives = 0; fives <= left-5; fives+=5) {
+	        sb.append("V");
+	    }
+	    left -= 5*fives;
+	    for (int i = 0; i < left; i++) {
 	        sb.append("I");
 	    }
-	    return sb.toString();
+	    return sb.toString().replace("IIII", "IV");
 	}
 }
