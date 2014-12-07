@@ -82,7 +82,7 @@ public class RomanArabicConverter
 	    for (fives = 0; fives <= left-5; fives+=5) {
 	        sb.append("V");
 	    }
-	    left -= 5*fives;
+	    left -= fives;
 	    for (int i = 0; i < left; i++) {
 	        sb.append("I");
 	    }

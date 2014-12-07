@@ -51,6 +51,13 @@ public class SampleRomanArabicConverterTest {
 	    assertEquals("V", new RomanArabicConverter("5").toRoman());
 	}
 	
+	@Test
+    public void input_6_() throws ValueOutOfBoundsException, MalformedNumberException {
+        assertEquals(6, new RomanArabicConverter("6").toArabic());
+        assertEquals("VI", new RomanArabicConverter("6").toRoman());
+    }
+    
+	
 	@Test (expected=MalformedNumberException.class)
 	public void inputEmptyString() throws MalformedNumberException
 	{
