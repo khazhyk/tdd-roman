@@ -60,18 +60,18 @@ public class RomanArabicConverter
 		} catch (NumberFormatException e) {
 		    this.value = 0;
 		    // Try to split the string on "places"
-            int onesIndex = getFirstOrIndex('I','V', value, value.length());
-		    int tensIndex = getFirstOrIndex('X','L', value, onesIndex);
-		    int hundsIndex = getFirstOrIndex('C','D', value, tensIndex);
-		    int thousIndex = getFirstOrIndex('M', 'M', value, hundsIndex);
+            final int onesIndex = getFirstOrIndex('I', 'V', value, value.length());
+		    final int tensIndex = getFirstOrIndex('X', 'L', value, onesIndex);
+		    final int hundsIndex = getFirstOrIndex('C', 'D', value, tensIndex);
+		    final int thousIndex = getFirstOrIndex('M', 'M', value, hundsIndex);
 
 		    if (thousIndex == value.length()) throw new MalformedNumberException("Given input was neither an Arabic Numeral nor a Roman Numeral!"); // Fixes spacesInWeirdPlaces
 		    if (thousIndex != 0) throw new MalformedNumberException("Given input was neither an Arabic Numeral nor a Roman Numeral!"); // This works because if any previous index is 0, thousIndex will be 0. If thousIndex isn't 0, we have some weird nonsense in front of our numeral.
 		    
-            this.value += parsePlace('I','V','X',value.substring(onesIndex));
-            if (tensIndex < onesIndex) this.value += 10 * parsePlace('X','L','C',value.substring(tensIndex, onesIndex));
-            if (hundsIndex < tensIndex) this.value += 100 * parsePlace('C','D','M',value.substring(hundsIndex,tensIndex));
-            if (thousIndex < hundsIndex) this.value += 1000 * parsePlace('M','M','M', value.substring(thousIndex, hundsIndex)); // This works because it short will always look at the 'unit' place first :)
+            this.value += parsePlace('I', 'V', 'X', value.substring(onesIndex));
+            if (tensIndex < onesIndex) this.value += 10 * parsePlace('X', 'L', 'C', value.substring(tensIndex, onesIndex));
+            if (hundsIndex < tensIndex) this.value += 100 * parsePlace('C', 'D', 'M', value.substring(hundsIndex, tensIndex));
+            if (thousIndex < hundsIndex) this.value += 1000 * parsePlace('M', 'M', 'M', value.substring(thousIndex, hundsIndex)); // This works because it short will always look at the 'unit' place first :)
 		}
 	}
 	
@@ -106,7 +106,7 @@ public class RomanArabicConverter
 	    for (int i = 0; i < num.length(); i++) {
 	        if (num.charAt(i) == unit) {
 	            val++;
-	            if (val%5 == 4) throw new MalformedNumberException("Too many '" + unit + "'s in a row!"); // IIII or VIIII
+	            if (val % 5 == 4) throw new MalformedNumberException("Too many '" + unit + "'s in a row!"); // IIII or VIIII
 	        } else if (num.charAt(i) == half) {
 	            if (val == 1) val += 3; // IV
 	            else if (val == 0) val += 5; // V
@@ -148,18 +148,18 @@ public class RomanArabicConverter
 	public String toRoman() throws ValueOutOfBoundsException
 	{
 	    if (value >= 4000 || value <= 0) throw new ValueOutOfBoundsException("Roman numerals must be between 1 and 3999, inclusive");
-	    StringBuilder sb = new StringBuilder();
+	    final StringBuilder sb = new StringBuilder();
 	    
-	    int thou = (value / 1000) % 10; // I mean, this will never be more than 3 because of the limit up there, but for consistency
+	    final int thou = (value / 1000) % 10; // I mean, this will never be more than 3 because of the limit up there, but for consistency
 	    for (int i = 0; i < thou; i++) {
 	        sb.append('M'); // generatePlace('M','M','M', thou) also works, but it's less clear what it does
 	    }
-	    int hunds = (value / 100) % 10;
-	    sb.append(generatePlace('C','D','M', hunds));
-	    int tens = (value / 10) % 10;
-	    sb.append(generatePlace('X','L','C', tens));
-	    int units = value % 10;
-	    sb.append(generatePlace('I','V','X', units));
+	    final int hunds = (value / 100) % 10;
+	    sb.append(generatePlace('C', 'D', 'M', hunds));
+	    final int tens = (value / 10) % 10;
+	    sb.append(generatePlace('X', 'L', 'C', tens));
+	    final int units = value % 10;
+	    sb.append(generatePlace('I', 'V', 'X', units));
 
 	    return sb.toString();
 	}
@@ -173,7 +173,7 @@ public class RomanArabicConverter
 	 * @return The roman representation of this place
 	 */
 	private String generatePlace(char placeUnit, char placeHalf, char nextPlace, int placeNum) {
-	    StringBuilder sb = new StringBuilder();
+	    final StringBuilder sb = new StringBuilder();
 	    if (placeNum < 4) {
 	        for (int i = 0; i < placeNum; i++) {
 	            sb.append(placeUnit);
