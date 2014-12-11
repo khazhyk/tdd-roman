@@ -52,13 +52,35 @@ public class RomanArabicConverter
 	 */
 	public RomanArabicConverter(String value) throws MalformedNumberException
 	{
-		if (value.isEmpty()) throw new MalformedNumberException("Value must not be empty!");
+	    value = value.trim();
+	    if (value.isEmpty()) throw new MalformedNumberException("Value must not be empty!");
 		
 		try {
-		    this.value = Integer.parseInt(value.trim());
+		    this.value = Integer.parseInt(value);
 		} catch (NumberFormatException e) {
-		    this.value = parsePlace('I','V','X',value.trim());
+		    this.value = 0;
+		    // Try to split the string on "places"
+            int onesIndex = getFirstOrIndex('I','V', value);
+		    int tensIndex = getFirstOrIndex('X','L', value);
+
+            this.value += parsePlace('I','V','X',value.substring(onesIndex));
+            if (tensIndex < onesIndex) this.value += 10 * parsePlace('X','L','C',value.substring(tensIndex, onesIndex));
 		}
+	}
+	
+	/**
+	 * Gets the first case of either character appearing
+	 * @param either
+	 * @param or
+	 * @param str
+	 * @return
+	 */
+	private int getFirstOrIndex(char either, char or, String str) {
+	    int eIdx = str.indexOf(either);
+	    int oIdx = str.indexOf(or);
+        if (oIdx == -1) oIdx = str.length();
+	    if (eIdx == -1) eIdx = oIdx;
+	    return Math.min(eIdx, oIdx);
 	}
 	
 	private int parsePlace(char unit, char half, char next, String num) throws MalformedNumberException {

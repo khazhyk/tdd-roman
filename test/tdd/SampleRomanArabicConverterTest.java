@@ -163,7 +163,7 @@ public class SampleRomanArabicConverterTest {
 	 */
 	
 	/*
-	 * Tens place
+	 * Ones place
 	 */
 	@Test
 	public void input_II_() throws ValueOutOfBoundsException, MalformedNumberException {
@@ -197,6 +197,52 @@ public class SampleRomanArabicConverterTest {
         assertEquals(9, rac.toArabic());
         assertEquals("IX", rac.toRoman());
     }
+	
+	/*
+	 * Tens place
+	 */
+   @Test
+    public void input_XX_() throws ValueOutOfBoundsException, MalformedNumberException {
+       RomanArabicConverter rac = new RomanArabicConverter("XX");
+       assertEquals(20, rac.toArabic());
+       assertEquals("XX", rac.toRoman());
+    }
+    
+    @Test
+    public void input_XL_() throws ValueOutOfBoundsException, MalformedNumberException {
+        RomanArabicConverter rac = new RomanArabicConverter("XL");
+        assertEquals(40, rac.toArabic());
+        assertEquals("XL", rac.toRoman());
+    }
+    
+    @Test
+    public void input_L_() throws ValueOutOfBoundsException, MalformedNumberException {
+        RomanArabicConverter rac = new RomanArabicConverter("L");
+        assertEquals(50, rac.toArabic());
+        assertEquals("L", rac.toRoman());
+    }
+    
+    @Test
+    public void input_LXX_() throws ValueOutOfBoundsException, MalformedNumberException {
+        RomanArabicConverter rac = new RomanArabicConverter("LXX");
+        assertEquals(70, rac.toArabic());
+        assertEquals("LXX", rac.toRoman());
+    }
+    
+    @Test
+    public void input_XC_() throws ValueOutOfBoundsException, MalformedNumberException {
+        RomanArabicConverter rac = new RomanArabicConverter("XC");
+        assertEquals(90, rac.toArabic());
+        assertEquals("XC", rac.toRoman());
+    }
+    
+    @Test
+    public void input_XCIX_() throws ValueOutOfBoundsException, MalformedNumberException {
+        RomanArabicConverter rac = new RomanArabicConverter("XCIX");
+        assertEquals(99, rac.toArabic());
+        assertEquals("XCIX", rac.toRoman());
+    }
+	
 	/*
 	 * Testing invalid input
 	 */
@@ -216,6 +262,10 @@ public class SampleRomanArabicConverterTest {
 	{
 		new RomanArabicConverter("");
 	}
+	
+	/*
+	 * Ones place
+	 */
 	
 	@Test (expected=MalformedNumberException.class)
 	public void inputIIII() throws MalformedNumberException
