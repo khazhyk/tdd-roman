@@ -90,6 +90,48 @@ public class SampleRomanArabicConverterTest {
     }
 	
 	@Test
+    public void input_99_() throws ValueOutOfBoundsException, MalformedNumberException {
+        RomanArabicConverter rac = new RomanArabicConverter("99");
+        assertEquals(99, rac.toArabic());
+        assertEquals("XCIX", rac.toRoman());
+    }
+	
+	@Test
+    public void input_100_() throws ValueOutOfBoundsException, MalformedNumberException {
+        RomanArabicConverter rac = new RomanArabicConverter("100");
+        assertEquals(100, rac.toArabic());
+        assertEquals("C", rac.toRoman());
+    }
+	
+	@Test
+    public void input_454_() throws ValueOutOfBoundsException, MalformedNumberException {
+        RomanArabicConverter rac = new RomanArabicConverter("454");
+        assertEquals(454, rac.toArabic());
+        assertEquals("CDLIV", rac.toRoman());
+    }
+	
+	@Test
+    public void input_506_() throws ValueOutOfBoundsException, MalformedNumberException {
+        RomanArabicConverter rac = new RomanArabicConverter("506");
+        assertEquals(506, rac.toArabic());
+        assertEquals("DVI", rac.toRoman());
+    }
+	
+	@Test
+    public void input_785_() throws ValueOutOfBoundsException, MalformedNumberException {
+        RomanArabicConverter rac = new RomanArabicConverter("785");
+        assertEquals(785, rac.toArabic());
+        assertEquals("DCCLXXXV", rac.toRoman());
+    }
+	
+	@Test
+    public void input_999_() throws ValueOutOfBoundsException, MalformedNumberException {
+        RomanArabicConverter rac = new RomanArabicConverter("999");
+        assertEquals(999, rac.toArabic());
+        assertEquals("CMXCIX", rac.toRoman());
+    }
+	
+	@Test
 	public void input_II_() throws ValueOutOfBoundsException, MalformedNumberException {
 	    assertEquals(2, new RomanArabicConverter("II").toArabic());
 	    assertEquals("II", new RomanArabicConverter("II").toRoman());
