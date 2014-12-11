@@ -222,4 +222,22 @@ public class SampleRomanArabicConverterTest {
 	{
 		new RomanArabicConverter("IIII");
 	}
+	
+	@Test (expected=MalformedNumberException.class)
+    public void inputIIV() throws MalformedNumberException
+    {
+        new RomanArabicConverter("IIV");
+    }
+	
+	@Test (expected=MalformedNumberException.class)
+    public void inputIIX() throws MalformedNumberException
+    {
+        new RomanArabicConverter("IIX");
+    }
+
+    @Test (expected=MalformedNumberException.class)
+    public void inputVX() throws MalformedNumberException
+    {
+        new RomanArabicConverter("VX");
+    }
 }

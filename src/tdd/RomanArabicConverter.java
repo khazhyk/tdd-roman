@@ -69,7 +69,12 @@ public class RomanArabicConverter
 	            val++;
 	            if (val%5 == 4) throw new MalformedNumberException("Too many '" + unit + "'s in a row!");
 	        } else if (num.charAt(i) == half) {
-	            val += 5;
+	            if (val == 1) val += 3;
+	            else if (val == 0) val += 5;
+	            else throw new MalformedNumberException("Invalid characters before '" + half + "'!");
+	        } else if (num.charAt(i) == next) {
+	            if (val == 1) val += 8;
+	            else throw new MalformedNumberException("Invalid characters before '" + next + "'!");
 	        }
 	    }
 	    
