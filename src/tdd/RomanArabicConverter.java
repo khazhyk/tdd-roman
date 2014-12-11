@@ -57,21 +57,23 @@ public class RomanArabicConverter
 		try {
 		    this.value = Integer.parseInt(value.trim());
 		} catch (NumberFormatException e) {
-		    this.value = parseRoman(value.trim());
+		    this.value = parsePlace('I','V','X',value.trim());
 		}
 	}
 	
-	private int parseRoman(String value) throws MalformedNumberException {
-	    int parsedVal = 0;
-	    int iCount = 0;
-	    for (int i = value.length() - 1; i >= 0; i--) {
-	        if (value.charAt(i) == 'I') {
-	            iCount += 1;
-	            parsedVal += 1;
-	            if (iCount > 3) throw new MalformedNumberException("To many 'I's! For example, use IV instead of IIII");
+	private int parsePlace(char unit, char half, char next, String num) throws MalformedNumberException {
+	    int val = 0;
+	    
+	    for (int i = 0; i < num.length(); i++) {
+	        if (num.charAt(i) == unit) {
+	            val++;
+	            if (val%5 == 4) throw new MalformedNumberException("Too many '" + unit + "'s in a row!");
+	        } else if (num.charAt(i) == half) {
+	            val += 5;
 	        }
 	    }
-        return parsedVal;
+	    
+	    return val;
 	}
 
 	/**
@@ -116,6 +118,14 @@ public class RomanArabicConverter
 	    return sb.toString();
 	}
 	
+	/**
+	 * Since the roman numerals are constructed in "places" we can treat each place individually
+	 * @param placeUnit The unit for this place (e.g. I for the ones place)
+	 * @param placeHalf The half unit (e.g. V)
+	 * @param nextPlace Then next unit above (e.g. X) used for the "9" (IX)
+	 * @param placeNum The number for this place. Should be less than 10, we're using base ten here
+	 * @return The roman representation of this place
+	 */
 	private String generatePlace(char placeUnit, char placeHalf, char nextPlace, int placeNum) {
 	    StringBuilder sb = new StringBuilder();
 	    if (placeNum < 4) {

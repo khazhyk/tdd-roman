@@ -162,12 +162,41 @@ public class SampleRomanArabicConverterTest {
 	 * Testing going the other way
 	 */
 	
+	/*
+	 * Tens place
+	 */
 	@Test
 	public void input_II_() throws ValueOutOfBoundsException, MalformedNumberException {
 	    assertEquals(2, new RomanArabicConverter("II").toArabic());
 	    assertEquals("II", new RomanArabicConverter("II").toRoman());
 	}
 	
+	@Test
+    public void input_IV_() throws ValueOutOfBoundsException, MalformedNumberException {
+        assertEquals(4, new RomanArabicConverter("IV").toArabic());
+        assertEquals("IV", new RomanArabicConverter("IV").toRoman());
+    }
+	
+	@Test
+    public void input_V_() throws ValueOutOfBoundsException, MalformedNumberException {
+        RomanArabicConverter rac = new RomanArabicConverter("V");
+        assertEquals(5, rac.toArabic());
+        assertEquals("V", rac.toRoman());
+    }
+	
+	@Test
+    public void input_VII_() throws ValueOutOfBoundsException, MalformedNumberException {
+        RomanArabicConverter rac = new RomanArabicConverter("VII");
+        assertEquals(7, rac.toArabic());
+        assertEquals("VII", rac.toRoman());
+    }
+	
+	@Test
+    public void input_IX_() throws ValueOutOfBoundsException, MalformedNumberException {
+        RomanArabicConverter rac = new RomanArabicConverter("IX");
+        assertEquals(9, rac.toArabic());
+        assertEquals("IX", rac.toRoman());
+    }
 	/*
 	 * Testing invalid input
 	 */
