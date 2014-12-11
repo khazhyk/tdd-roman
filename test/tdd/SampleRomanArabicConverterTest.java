@@ -293,6 +293,13 @@ public class SampleRomanArabicConverterTest {
         assertEquals("MMM", rac.toRoman());
     }
     
+    @Test
+    public void input_MMMCMXCIX_() throws ValueOutOfBoundsException, MalformedNumberException {
+        RomanArabicConverter rac = new RomanArabicConverter("MMMCMXCIX");
+        assertEquals(3999, rac.toArabic());
+        assertEquals("MMMCMXCIX", rac.toRoman());
+    }
+    
 	/*
 	 * Testing invalid input
 	 */
@@ -399,5 +406,49 @@ public class SampleRomanArabicConverterTest {
         new RomanArabicConverter("MMMM"); 
     }
     
+    /*
+     * Double check we can toArabic() negatives and out-of-bounds, even though we can't toRoman
+     */
+    @Test
+    public void arabicOutOfBounds() throws MalformedNumberException {
+        RomanArabicConverter rac_low = new RomanArabicConverter("-1");
+        RomanArabicConverter rac_high = new RomanArabicConverter("124121");
+        
+        assertEquals(-1, rac_low.toArabic());
+        assertEquals(124121, rac_high.toArabic());
+    }
     
+    /*
+     * Okay at this point it's all implemented, lets try breaking it in weird ways.
+     */
+    
+    @Test(expected=MalformedNumberException.class)
+    public void spacesInWeirdPlaces() throws MalformedNumberException {
+        new RomanArabicConverter("1 4");
+    }
+    
+    @Test(expected=MalformedNumberException.class)
+    public void absoluteGarbageInput() throws MalformedNumberException {
+        new RomanArabicConverter("garbage");
+    }
+    
+    @Test(expected=MalformedNumberException.class)
+    public void absoluteGarbageInput4() throws MalformedNumberException {
+        new RomanArabicConverter("IVgarbageIV");
+    }
+    
+    @Test(expected=MalformedNumberException.class)
+    public void lowerCase() throws MalformedNumberException {
+        new RomanArabicConverter("iv"); // The Wikipedia article makes it seem like lowercase isn't allowed, so it isn't allowed :)
+    }
+    
+    @Test(expected=MalformedNumberException.class)
+    public void mixedInput() throws MalformedNumberException {
+        new RomanArabicConverter("15IX");
+    }
+    
+    @Test(expected=MalformedNumberException.class)
+    public void mixedInput2() throws MalformedNumberException {
+        new RomanArabicConverter("IX15");
+    }
 }

@@ -65,6 +65,9 @@ public class RomanArabicConverter
 		    int hundsIndex = getFirstOrIndex('C','D', value, tensIndex);
 		    int thousIndex = getFirstOrIndex('M', 'M', value, hundsIndex);
 
+		    if (thousIndex == value.length()) throw new MalformedNumberException("Given input was neither an Arabic Numeral nor a Roman Numeral!"); // Fixes spacesInWeirdPlaces
+		    if (thousIndex != 0) throw new MalformedNumberException("Given input was neither an Arabic Numeral nor a Roman Numeral!"); // This works because if any previous index is 0, thousIndex will be 0. If thousIndex isn't 0, we have some weird nonsense in front of our numeral.
+		    
             this.value += parsePlace('I','V','X',value.substring(onesIndex));
             if (tensIndex < onesIndex) this.value += 10 * parsePlace('X','L','C',value.substring(tensIndex, onesIndex));
             if (hundsIndex < tensIndex) this.value += 100 * parsePlace('C','D','M',value.substring(hundsIndex,tensIndex));
