@@ -60,43 +60,57 @@ public class RomanArabicConverter
 		} catch (NumberFormatException e) {
 		    this.value = 0;
 		    // Try to split the string on "places"
-            int onesIndex = getFirstOrIndex('I','V', value);
-		    int tensIndex = getFirstOrIndex('X','L', value);
+            int onesIndex = getFirstOrIndex('I','V', value, value.length());
+		    int tensIndex = getFirstOrIndex('X','L', value, onesIndex);
+		    int hundsIndex = getFirstOrIndex('C','D', value, tensIndex);
+		    int thousIndex = getFirstOrIndex('M', 'M', value, hundsIndex);
 
             this.value += parsePlace('I','V','X',value.substring(onesIndex));
             if (tensIndex < onesIndex) this.value += 10 * parsePlace('X','L','C',value.substring(tensIndex, onesIndex));
+            if (hundsIndex < tensIndex) this.value += 100 * parsePlace('C','D','M',value.substring(hundsIndex,tensIndex));
+            if (thousIndex < hundsIndex) this.value += 1000 * parsePlace('M','M','M', value.substring(thousIndex, hundsIndex)); // This works because it short will always look at the 'unit' place first :)
 		}
 	}
 	
 	/**
 	 * Gets the first case of either character appearing
-	 * @param either
-	 * @param or
-	 * @param str
-	 * @return
+	 * @param either First char to look for
+	 * @param or the other char to look for
+	 * @param str String to look in
+	 * @param default value to return if you can't find either;
+	 * @return the first appearance of 'either' or 'or', or 'def' if both are -1. 
 	 */
-	private int getFirstOrIndex(char either, char or, String str) {
+	private int getFirstOrIndex(char either, char or, String str, int def) {
 	    int eIdx = str.indexOf(either);
 	    int oIdx = str.indexOf(or);
-        if (oIdx == -1) oIdx = str.length();
-	    if (eIdx == -1) eIdx = oIdx;
+        if (oIdx == -1) oIdx = def;
+	    if (eIdx == -1) eIdx = def;
 	    return Math.min(eIdx, oIdx);
 	}
 	
+	/**
+	 * Parses the given 'place' in the roman numeral
+	 * @param unit expected unit for the place (e.g. I for ones place)
+	 * @param half half for place (e.g. V for once place)
+	 * @param next next place unit (e.g. X for ones place)
+	 * @param num the string you want to parse, with no extra
+	 * @return the number represented by it.
+	 * @throws MalformedNumberException If your string is bad.
+	 */
 	private int parsePlace(char unit, char half, char next, String num) throws MalformedNumberException {
 	    int val = 0;
 	    
 	    for (int i = 0; i < num.length(); i++) {
 	        if (num.charAt(i) == unit) {
 	            val++;
-	            if (val%5 == 4) throw new MalformedNumberException("Too many '" + unit + "'s in a row!");
+	            if (val%5 == 4) throw new MalformedNumberException("Too many '" + unit + "'s in a row!"); // IIII or VIIII
 	        } else if (num.charAt(i) == half) {
-	            if (val == 1) val += 3;
-	            else if (val == 0) val += 5;
-	            else throw new MalformedNumberException("Invalid characters before '" + half + "'!");
+	            if (val == 1) val += 3; // IV
+	            else if (val == 0) val += 5; // V
+	            else throw new MalformedNumberException("Invalid characters before '" + half + "'!"); // IIV etc.
 	        } else if (num.charAt(i) == next) {
 	            if (val == 1) val += 8;
-	            else throw new MalformedNumberException("Invalid characters before '" + next + "'!");
+	            else throw new MalformedNumberException("Invalid characters before '" + next + "'!"); // VX IIX etc.
 	        } else {
 	            throw new MalformedNumberException("Unexpected character '" + num.charAt(i) + "'!");
 	        }
@@ -135,7 +149,7 @@ public class RomanArabicConverter
 	    
 	    int thou = (value / 1000) % 10; // I mean, this will never be more than 3 because of the limit up there, but for consistency
 	    for (int i = 0; i < thou; i++) {
-	        sb.append('M'); // We could replace this loop with generatePlace if the thousands place had more characters to expand to, but, alas, the romans can't count that high
+	        sb.append('M'); // generatePlace('M','M','M', thou) also works, but it's less clear what it does
 	    }
 	    int hunds = (value / 100) % 10;
 	    sb.append(generatePlace('C','D','M', hunds));
