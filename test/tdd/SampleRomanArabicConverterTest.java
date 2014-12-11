@@ -25,6 +25,9 @@ import org.junit.Test;
  */
 public class SampleRomanArabicConverterTest {
 
+    /*
+     * First tests, going 1 to 10
+     */
 	@Test
 	public void input_1_() throws ValueOutOfBoundsException, MalformedNumberException
 	{
@@ -63,6 +66,9 @@ public class SampleRomanArabicConverterTest {
 	    assertEquals("IX", new RomanArabicConverter("9").toRoman());
 	}
 	
+	/*
+	 * Implementing the tens place
+	 */
 	@Test
 	public void input_10_() throws ValueOutOfBoundsException, MalformedNumberException {
 	    assertEquals(10, new RomanArabicConverter("10").toArabic());
@@ -96,6 +102,9 @@ public class SampleRomanArabicConverterTest {
         assertEquals("XCIX", rac.toRoman());
     }
 	
+	/*
+	 * Hundreds place is easy now that we factored this into per-place
+	 */
 	@Test
     public void input_100_() throws ValueOutOfBoundsException, MalformedNumberException {
         RomanArabicConverter rac = new RomanArabicConverter("100");
@@ -131,15 +140,41 @@ public class SampleRomanArabicConverterTest {
         assertEquals("CMXCIX", rac.toRoman());
     }
 	
+	/*
+	 * Thousands place now
+	 */
+	
+	@Test
+    public void input_1000_() throws ValueOutOfBoundsException, MalformedNumberException {
+        RomanArabicConverter rac = new RomanArabicConverter("1000");
+        assertEquals(1000, rac.toArabic());
+        assertEquals("M", rac.toRoman());
+    }
+	
+	@Test
+    public void input_3427_() throws ValueOutOfBoundsException, MalformedNumberException {
+        RomanArabicConverter rac = new RomanArabicConverter("3427");
+        assertEquals(3427, rac.toArabic());
+        assertEquals("MMMCDXXVII", rac.toRoman());
+    }
+	
+	/*
+	 * Testing going the other way
+	 */
+	
 	@Test
 	public void input_II_() throws ValueOutOfBoundsException, MalformedNumberException {
 	    assertEquals(2, new RomanArabicConverter("II").toArabic());
 	    assertEquals("II", new RomanArabicConverter("II").toRoman());
 	}
 	
+	/*
+	 * Testing invalid input
+	 */
+	
 	@Test(expected=ValueOutOfBoundsException.class) 
 	public void tooHigh() throws ValueOutOfBoundsException, MalformedNumberException {
-	    new RomanArabicConverter("5000").toRoman();
+	    new RomanArabicConverter("4000").toRoman();
 	}
 	
 	@Test(expected=ValueOutOfBoundsException.class)

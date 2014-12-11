@@ -102,6 +102,10 @@ public class RomanArabicConverter
 	    if (value >= 4000 || value <= 0) throw new ValueOutOfBoundsException("Roman numerals must be between 1 and 3999, inclusive");
 	    StringBuilder sb = new StringBuilder();
 	    
+	    int thou = (value / 1000) % 10; // I mean, this will never be more than 3 because of the limit up there, but for consistency
+	    for (int i = 0; i < thou; i++) {
+	        sb.append('M'); // We could replace this loop with generatePlace if the thousands place had more characters to expand to, but, alas, the romans can't count that high
+	    }
 	    int hunds = (value / 100) % 10;
 	    sb.append(generatePlace('C','D','M', hunds));
 	    int tens = (value / 10) % 10;
