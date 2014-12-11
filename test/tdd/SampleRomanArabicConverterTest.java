@@ -240,4 +240,16 @@ public class SampleRomanArabicConverterTest {
     {
         new RomanArabicConverter("VX");
     }
+    
+    @Test (expected=MalformedNumberException.class)
+    public void inputVV() throws MalformedNumberException
+    {
+        new RomanArabicConverter("VV");
+    }
+    
+    @Test (expected=MalformedNumberException.class)
+    public void inputIIIII() throws MalformedNumberException
+    {
+        new RomanArabicConverter("IIIII");
+    }
 }
