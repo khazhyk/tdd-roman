@@ -12,6 +12,7 @@
 
 package tdd;
 
+
 /**
  * <p>
  * This class implements a converter that takes a string that represents a number in either Arabic
@@ -52,9 +53,25 @@ public class RomanArabicConverter
 	public RomanArabicConverter(String value) throws MalformedNumberException
 	{
 		if (value.isEmpty()) throw new MalformedNumberException("Value must not be empty!");
-		if (value.equals("IIII")) throw new MalformedNumberException("Value is invalid!");
 		
-		this.value = Integer.parseInt(value.trim());
+		try {
+		    this.value = Integer.parseInt(value.trim());
+		} catch (NumberFormatException e) {
+		    this.value = parseRoman(value.trim());
+		}
+	}
+	
+	private int parseRoman(String value) throws MalformedNumberException {
+	    int parsedVal = 0;
+	    int iCount = 0;
+	    for (int i = value.length() - 1; i >= 0; i--) {
+	        if (value.charAt(i) == 'I') {
+	            iCount += 1;
+	            parsedVal += 1;
+	            if (iCount > 3) throw new MalformedNumberException("To many 'I's! For example, use IV instead of IIII");
+	        }
+	    }
+        return parsedVal;
 	}
 
 	/**
@@ -62,7 +79,6 @@ public class RomanArabicConverter
 	 */
 	public int toArabic()
 	{
-		// TODO: Convert numbers to Arabic
 		return value;
 	}
 
@@ -73,40 +89,43 @@ public class RomanArabicConverter
 	 *             specified in <a
 	 *             href="http://en.wikipedia.org/wiki/Roman_numerals#Reading_Roman_numerals">
 	 *             Reading Roman Numerals</a>
+	 *             
+	 *             
+	 *  Consider it by places - 1s place, 10s place, 100s place, 1000s place
+	 *  1s place can accept I,V, up to IX,
+	 *  10s is just like 1s, except with X, L, XC
+	 *  100s C, D, CM
+	 *  1000s is just M, so the max you can get is MMMCMXCIX, or 3999
 	 */
 	public String toRoman() throws ValueOutOfBoundsException
 	{
 	    if (value >= 4000 || value <= 0) throw new ValueOutOfBoundsException("Roman numerals must be between 1 and 3999, inclusive");
 	    StringBuilder sb = new StringBuilder();
-	    int left = value;
 	    
-	    while (left >= 1000) {
-	        sb.append('M');
-	        left -= 1000;
+	    int tens = (value / 10) % 10;
+	    sb.append(generatePlace('X','L','C', tens));
+	    int units = value % 10;
+	    sb.append(generatePlace('I','V','X', units));
+
+	    return sb.toString();
+	}
+	
+	private String generatePlace(char placeUnit, char placeHalf, char nextPlace, int placeNum) {
+	    StringBuilder sb = new StringBuilder();
+	    if (placeNum < 4) {
+	        for (int i = 0; i < placeNum; i++) {
+	            sb.append(placeUnit);
+	        }
+	    } else if (placeNum == 4) {
+	        sb.append(placeUnit).append(placeHalf);
+	    } else if (placeNum > 4 && placeNum < 9) {
+	        sb.append(placeHalf);
+	        for (int i = 5; i < placeNum; i++) {
+	            sb.append(placeUnit);
+	        }
+	    } else if (placeNum == 9) {
+	        sb.append(placeUnit).append(nextPlace);
 	    }
-	    while (left >= 500) {
-	        sb.append('D');
-	        left -= 500;
-	    }
-	    while (left >= 100) {
-	        sb.append('C');
-	        left -= 100;
-	    }
-	    while (left >= 50) {
-	        sb.append('L');
-	        left -= 50;
-	    }
-	    while (left >= 10) {
-	        sb.append('X');
-	        left -= 10;
-	    }
-	    while (left >= 5) {
-	        sb.append('V');
-	        left -= 5;
-	    }
-	    for (int i = 0; i < left; i++) {
-	        sb.append('I');
-	    }
-	    return sb.toString().replace("IIII", "IV").replace("VIV","IX");
+	    return sb.toString();
 	}
 }

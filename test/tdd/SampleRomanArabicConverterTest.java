@@ -70,14 +70,15 @@ public class SampleRomanArabicConverterTest {
 	}
 	
 	@Test
-	public void whole_numbers() throws ValueOutOfBoundsException, MalformedNumberException {
-	    assertEquals("I", new RomanArabicConverter("1").toRoman());
-	    assertEquals("V", new RomanArabicConverter("5").toRoman());
-	    assertEquals("X", new RomanArabicConverter("10").toRoman());
-	    assertEquals("L", new RomanArabicConverter("50").toRoman());
-	    assertEquals("C", new RomanArabicConverter("100").toRoman());
-	    assertEquals("D", new RomanArabicConverter("500").toRoman());
-	    assertEquals("M", new RomanArabicConverter("1000").toRoman());
+    public void input_15_() throws ValueOutOfBoundsException, MalformedNumberException {
+        assertEquals(15, new RomanArabicConverter("15").toArabic());
+        assertEquals("XV", new RomanArabicConverter("15").toRoman());
+    }
+	
+	@Test
+	public void input_II_() throws ValueOutOfBoundsException, MalformedNumberException {
+	    assertEquals(2, new RomanArabicConverter("II").toArabic());
+	    assertEquals("II", new RomanArabicConverter("II").toRoman());
 	}
 	
 	@Test(expected=ValueOutOfBoundsException.class) 
