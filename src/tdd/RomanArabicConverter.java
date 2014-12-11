@@ -97,6 +97,8 @@ public class RomanArabicConverter
 	        } else if (num.charAt(i) == next) {
 	            if (val == 1) val += 8;
 	            else throw new MalformedNumberException("Invalid characters before '" + next + "'!");
+	        } else {
+	            throw new MalformedNumberException("Unexpected character '" + num.charAt(i) + "'!");
 	        }
 	    }
 	    

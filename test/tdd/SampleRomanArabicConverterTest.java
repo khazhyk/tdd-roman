@@ -302,4 +302,37 @@ public class SampleRomanArabicConverterTest {
     {
         new RomanArabicConverter("IIIII");
     }
+    
+    @Test (expected=MalformedNumberException.class)
+    public void inputIIIXXX() throws MalformedNumberException
+    {
+        new RomanArabicConverter("IIIXXX");
+    }
+    
+    /*
+     * I tried to break the tens place somehow by mixing ones and tens, below are my tries that didn't work.
+     */
+    
+    @Test (expected=MalformedNumberException.class)
+    public void inputVLX() throws MalformedNumberException
+    {
+        new RomanArabicConverter("VLX");
+    }
+    
+    @Test (expected=MalformedNumberException.class)
+    public void inputIVLX() throws MalformedNumberException
+    {
+        new RomanArabicConverter("IVLX");
+    }
+    
+    /*
+     * THIS ONE WORKED YAY
+     */
+    @Test (expected=MalformedNumberException.class)
+    public void inputDLIXLD() throws MalformedNumberException
+    {
+        new RomanArabicConverter("DLIXLD"); 
+    }
+    
+    
 }
